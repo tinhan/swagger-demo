@@ -1,5 +1,9 @@
-FROM java:8
-ADD target/swagger-vod-demo-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8080
-RUN bash -c 'touch /app.jar'
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+FROM maven:3.5.2-jdk-8 AS build  
+COPY src /usr/src/app/src  
+COPY pom.xml /usr/src/app  
+RUN mvn -f /usr/src/app/pom.xml clean package
+
+FROM openjdk:8  
+COPY --from=build /usr/src/app/target/api-swagger-demo-0.0.1-SNAPSHOT.jar /usr/app/api-swagger-demo-0.0.1-SNAPSHOT.jar  
+EXPOSE 8080  
+ENTRYPOINT ["java","-jar","/usr/app/api-swagger-demo-0.0.1-SNAPSHOT.jar"] 
