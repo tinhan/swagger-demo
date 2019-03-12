@@ -25,7 +25,7 @@ public class ThaiPostController {
 	@ApiOperation(value = "Get Tracking Detail by tracking number", nickname = "Get Tracking Detail", response = List.class)
 	@ApiResponses(value = { 
 			@ApiResponse(code = 200, message = "SUCCESS", response = TrackingResponse.class),
-			@ApiResponse(code = 403, message = "NOT_FOUND", response = ErrorResponse.class),
+			@ApiResponse(code = 403, message = "FOR_BIDDEN", response = ErrorResponse.class),
 			@ApiResponse(code = 404, message = "NOT_FOUND", response = ErrorResponse.class),
 			@ApiResponse(code = 500, message = "FAILURE", response = ErrorResponse.class) })
 	@RequestMapping(value = "/tracking/{tracking_no}",method = RequestMethod.GET, produces = "application/json")
@@ -36,12 +36,23 @@ public class ThaiPostController {
 	@ApiOperation(value = "Get Tracking List by mobile number", nickname = "Get Tracking List", response = List.class)
 	@ApiResponses(value = { 
 			@ApiResponse(code = 200, message = "SUCCESS", response = TrackingResponse.class),
-			@ApiResponse(code = 403, message = "NOT_FOUND", response = ErrorResponse.class),
+			@ApiResponse(code = 403, message = "FOR_BIDDEN", response = ErrorResponse.class),
 			@ApiResponse(code = 404, message = "NOT_FOUND", response = ErrorResponse.class),
 			@ApiResponse(code = 500, message = "FAILURE", response = ErrorResponse.class) })
 	@RequestMapping(value = "/customer/{mobile}/tracking_list", method = RequestMethod.GET,  produces = "application/json")
 	public ResponseEntity<Object> getTrackingList(@ApiParam("mobile number format: XXXXXXXXXX") @PathVariable String mobile) {
 		return thaiPostService.getTrackingList(mobile);
+	}
+	
+	@ApiOperation(value = "Get Tracking List by somthing", nickname = "Get Tracking somthing", response = List.class)
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "SUCCESS", response = TrackingResponse.class),
+			@ApiResponse(code = 403, message = "FOR_BIDDEN", response = ErrorResponse.class),
+			@ApiResponse(code = 404, message = "NOT_FOUND", response = ErrorResponse.class),
+			@ApiResponse(code = 500, message = "FAILURE", response = ErrorResponse.class) })
+	@RequestMapping(value = "/customer/trackingList/{tracking_no}", method = RequestMethod.GET,  produces = "application/json")
+	public ResponseEntity<Object> getTrackingListBySomthing(@ApiParam("tracking number format: XXXXXXXXXX") @PathVariable String tracking_no) {
+		return thaiPostService.getTrackingList(tracking_no);
 	}
 	
 }
